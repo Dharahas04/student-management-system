@@ -8,6 +8,10 @@ import com.student.student_management.repository.*;
 import com.student.student_management.dto.EnrollmentRequest;
 import java.util.List;
 
+import java.util.List;
+import java.util.stream.Collectors;
+import com.student.student_management.dto.EnrollmentResponse;
+
 @Service
 public class EnrollmentService {
 
@@ -38,6 +42,17 @@ public class EnrollmentService {
 
     public List<Enrollment> getAllEnrollments() {
         return enrollmentRepository.findAll();
+    }
+
+    public List<EnrollmentResponse> getAllEnrollmentResponses() {
+        return enrollmentRepository.findAll().stream()
+                .map(e -> new EnrollmentResponse(
+                        e.getStudent().getId(),
+                        e.getStudent().getName(),
+                        e.getStudent().getBranch().getBranchName(),
+                        e.getCourse().getCourseName(),
+                        e.getSemester()))
+                .collect(Collectors.toList());
     }
 
 }
