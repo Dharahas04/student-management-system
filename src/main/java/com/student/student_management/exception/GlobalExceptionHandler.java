@@ -16,4 +16,13 @@ public class GlobalExceptionHandler {
         error.put("error", ex.getMessage());
         return error;
     }
+
+    @ExceptionHandler(Exception.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public Map<String, String> handleInternal(Exception ex) {
+        Map<String, String> error = new HashMap<>();
+        error.put("error", ex.getMessage() == null ? "Internal Server Error" : ex.getMessage());
+        return error;
+    }
+
 }

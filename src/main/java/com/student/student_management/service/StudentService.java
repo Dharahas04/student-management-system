@@ -6,8 +6,12 @@ import org.springframework.stereotype.Service;
 
 import com.student.student_management.dto.StudentResponse;
 import com.student.student_management.entity.Student;
+import com.student.student_management.exception.ResourceNotFoundException;
 import com.student.student_management.repository.StudentRepository;
 import java.util.stream.Collectors;
+import org.springframework.transaction.annotation.Transactional;
+import java.util.Collections;
+import java.util.Objects;
 
 @Service
 public class StudentService {
@@ -31,21 +35,26 @@ public class StudentService {
         repository.deleteById(id);
     }
 
+    @Transactional(readOnly = true)
     public StudentResponse getStudentWithCourses(Long id) {
-
         Student student = repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Student not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Student not found with id " + id));
 
-        List<String> courseNames = student.getEnrollments()
-                .stream()
-                .map(enrollment -> enrollment.getCourse().getCourseName())
-                .collect(Collectors.toList());
+        String branchName = student.getBranch() != null ? student.getBranch().getBranchName() : null;
+
+        List<String> courseNames = student.getEnrollments() == null
+                ? Collections.emptyList()
+                : student.getEnrollments().stream()
+                        .map(enrollment -> enrollment.getCourse())
+                        .filter(Objects::nonNull)
+                        .map(course -> course.getCourseName())
+                        .collect(Collectors.toList());
 
         return new StudentResponse(
                 student.getId(),
                 student.getName(),
                 student.getEmail(),
-                student.getBranch().getBranchName(),
+                branchName,
                 courseNames);
     }
 

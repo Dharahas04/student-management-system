@@ -10,6 +10,7 @@ import java.util.List;
 
 import java.util.stream.Collectors;
 import com.student.student_management.dto.EnrollmentResponse;
+import com.student.student_management.exception.ResourceNotFoundException;
 
 @Service
 public class EnrollmentService {
@@ -26,10 +27,11 @@ public class EnrollmentService {
     public Enrollment enrollStudent(EnrollmentRequest request) {
 
         Student student = studentRepository.findById(request.getStudentId())
-                .orElseThrow(() -> new RuntimeException("Student not found"));
+                .orElseThrow(
+                        () -> new ResourceNotFoundException("Student not found with id " + request.getStudentId()));
 
         Course course = courseRepository.findById(request.getCourseId())
-                .orElseThrow(() -> new RuntimeException("Course not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Course not found with id " + request.getCourseId()));
 
         Enrollment enrollment = new Enrollment();
         enrollment.setStudent(student);
@@ -46,10 +48,12 @@ public class EnrollmentService {
     public List<EnrollmentResponse> getAllEnrollmentResponses() {
         return enrollmentRepository.findAll().stream()
                 .map(e -> new EnrollmentResponse(
-                        e.getStudent().getId(),
-                        e.getStudent().getName(),
-                        e.getStudent().getBranch().getBranchName(),
-                        e.getCourse().getCourseName(),
+                        e.getStudent() != null ? e.getStudent().getId() : null,
+                        e.getStudent() != null ? e.getStudent().getName() : null,
+                        (e.getStudent() != null && e.getStudent().getBranch() != null)
+                                ? e.getStudent().getBranch().getBranchName()
+                                : null,
+                        e.getCourse() != null ? e.getCourse().getCourseName() : null,
                         e.getSemester()))
                 .collect(Collectors.toList());
     }
