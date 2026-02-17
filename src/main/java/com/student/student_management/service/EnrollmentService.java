@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import com.student.student_management.entity.*;
 import com.student.student_management.repository.*;
 import com.student.student_management.dto.EnrollmentRequest;
+import java.util.List;
 
 @Service
 public class EnrollmentService {
@@ -34,4 +35,9 @@ public class EnrollmentService {
 
         return enrollmentRepository.save(enrollment);
     }
+
+    public List<Enrollment> getAllEnrollments() {
+        return enrollmentRepository.findAll();
+    }
+
 }

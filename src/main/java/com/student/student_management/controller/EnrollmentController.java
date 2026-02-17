@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import com.student.student_management.entity.Enrollment;
 import com.student.student_management.service.EnrollmentService;
 import com.student.student_management.dto.EnrollmentRequest;
+import java.util.List;
 
 @RestController
 @RequestMapping("/enrollments")
@@ -17,5 +18,10 @@ public class EnrollmentController {
     @PostMapping
     public Enrollment enrollStudent(@RequestBody EnrollmentRequest request) {
         return service.enrollStudent(request);
+    }
+
+    @GetMapping
+    public List<Enrollment> getAllEnrollments() {
+        return service.getAllEnrollments();
     }
 }
