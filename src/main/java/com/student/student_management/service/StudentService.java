@@ -7,8 +7,6 @@ import org.springframework.stereotype.Service;
 import com.student.student_management.entity.Student;
 import com.student.student_management.repository.StudentRepository;
 import java.util.stream.Collectors;
-import com.student.student_management.dto.StudentResponse;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class StudentService {
@@ -30,28 +28,6 @@ public class StudentService {
 
     public void deleteStudent(Long id) {
         repository.deleteById(id);
-    }
-
-    @Transactional
-    public StudentResponse getStudentWithCourses(Long id) {
-
-        Student student = repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Student not found"));
-
-        List<String> courseNames = new ArrayList<>();
-
-        if (student.getEnrollments() != null) {
-            courseNames = student.getEnrollments()
-                    .stream()
-                    .map(e -> e.getCourse().getCourseName())
-                    .collect(Collectors.toList());
-        }
-
-        return new StudentResponse(
-                student.getId(),
-                student.getName(),
-                student.getBranch() != null ? student.getBranch().getBranchName() : null,
-                courseNames);
     }
 
 }
