@@ -22,13 +22,7 @@ public class EnrollmentController {
     }
 
     @GetMapping
-    public List<Enrollment> getAllEnrollments() {
-        return service.getAllEnrollments();
-    }
-
-    @GetMapping
     public List<EnrollmentResponse> getAllEnrollments() {
         return service.getAllEnrollmentResponses();
     }
-
 }
