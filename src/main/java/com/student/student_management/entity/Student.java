@@ -1,36 +1,31 @@
 package com.student.student_management.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
+import java.util.List;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-@Table(name = "students")
 public class Student {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "Name is required")
     private String name;
-
-    @Email(message = "Invalid email")
     private String email;
+    private String courseName;
 
-    @NotBlank(message = "Course is required")
-    private String course;
+    @ManyToOne
+    @JoinColumn(name = "branch_id")
+    private Branch branch;
 
-    // Constructors
+    @OneToMany(mappedBy = "student")
+    @JsonIgnore
+    private List<Enrollment> enrollments;
+
     public Student() {
     }
 
-    public Student(String name, String email, String course) {
-        this.name = name;
-        this.email = email;
-        this.course = course;
-    }
-
-    // Getters and Setters
     public Long getId() {
         return id;
     }
@@ -51,19 +46,27 @@ public class Student {
         this.email = email;
     }
 
-    public String getCourse() {
-        return course;
+    public String getCourseName() {
+        return courseName;
     }
 
-    public void setCourse(String course) {
-        this.course = course;
+    public void setCourseName(String courseName) {
+        this.courseName = courseName;
     }
-
-    @ManyToOne
-    @JoinColumn(name = "branch_id")
-    private Branch branch;
 
     public Branch getBranch() {
         return branch;
+    }
+
+    public void setBranch(Branch branch) {
+        this.branch = branch;
+    }
+
+    public List<Enrollment> getEnrollments() {
+        return enrollments;
+    }
+
+    public void setEnrollments(List<Enrollment> enrollments) {
+        this.enrollments = enrollments;
     }
 }
