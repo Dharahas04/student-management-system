@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.student.student_management.dto.StudentResponse;
 import com.student.student_management.entity.Student;
 import com.student.student_management.repository.StudentRepository;
 import java.util.stream.Collectors;
@@ -28,6 +30,24 @@ public class StudentService {
 
     public void deleteStudent(Long id) {
         repository.deleteById(id);
+    }
+
+    public StudentResponse getStudentWithCourses(Long id) {
+
+        Student student = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Student not found"));
+
+        List<String> courseNames = student.getEnrollments()
+                .stream()
+                .map(enrollment -> enrollment.getCourse().getCourseName())
+                .collect(Collectors.toList());
+
+        return new StudentResponse(
+                student.getId(),
+                student.getName(),
+                student.getEmail(),
+                student.getBranch().getBranchName(),
+                courseNames);
     }
 
 }
