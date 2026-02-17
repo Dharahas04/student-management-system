@@ -1,5 +1,6 @@
 package com.student.student_management.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -35,15 +36,20 @@ public class StudentService {
         Student student = repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Student not found"));
 
-        List<String> courseNames = student.getEnrollments()
-                .stream()
-                .map(e -> e.getCourse().getCourseName())
-                .collect(Collectors.toList());
+        List<String> courseNames = new ArrayList<>();
+
+        if (student.getEnrollments() != null) {
+            courseNames = student.getEnrollments()
+                    .stream()
+                    .map(e -> e.getCourse().getCourseName())
+                    .collect(Collectors.toList());
+        }
 
         return new StudentResponse(
                 student.getId(),
                 student.getName(),
-                student.getBranch().getBranchName(),
+                student.getBranch() != null ? student.getBranch().getBranchName() : null,
                 courseNames);
     }
+
 }
