@@ -3,6 +3,8 @@ package com.student.student_management.entity;
 import jakarta.persistence.*;
 
 @Entity
+@Table(name = "enrollments")
+
 public class Enrollment {
 
     @Id
