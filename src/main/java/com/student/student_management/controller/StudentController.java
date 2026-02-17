@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import com.student.student_management.entity.Student;
 import com.student.student_management.service.StudentService;
+import com.student.student_management.exception.ResourceNotFoundException;
 
 @RestController
 @RequestMapping("/students")
@@ -38,7 +39,7 @@ public class StudentController {
     public Student updateStudent(@PathVariable Long id, @RequestBody Student student) {
         Student existing = service.getStudentById(id);
         if (existing == null) {
-            throw new RuntimeException("Student not found");
+            throw new ResourceNotFoundException("Student not found with id " + id);
         }
 
         existing.setName(student.getName());
