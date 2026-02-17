@@ -8,6 +8,7 @@ import com.student.student_management.entity.Student;
 import com.student.student_management.repository.StudentRepository;
 import java.util.stream.Collectors;
 import com.student.student_management.dto.StudentResponse;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class StudentService {
@@ -31,6 +32,7 @@ public class StudentService {
         repository.deleteById(id);
     }
 
+    @Transactional
     public StudentResponse getStudentWithCourses(Long id) {
 
         Student student = repository.findById(id)
