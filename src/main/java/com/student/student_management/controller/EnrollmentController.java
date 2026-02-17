@@ -7,6 +7,7 @@ import com.student.student_management.entity.Enrollment;
 import com.student.student_management.service.EnrollmentService;
 import com.student.student_management.dto.EnrollmentRequest;
 import java.util.List;
+import com.student.student_management.dto.EnrollmentResponse;
 
 @RestController
 @RequestMapping("/enrollments")
@@ -24,4 +25,10 @@ public class EnrollmentController {
     public List<Enrollment> getAllEnrollments() {
         return service.getAllEnrollments();
     }
+
+    @GetMapping
+    public List<EnrollmentResponse> getAllEnrollments() {
+        return service.getAllEnrollmentResponses();
+    }
+
 }
