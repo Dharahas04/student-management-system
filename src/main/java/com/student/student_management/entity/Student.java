@@ -14,8 +14,6 @@ public class Student {
 
     private String name;
     private String email;
-    private String courseName;
-
     @ManyToOne
     @JoinColumn(name = "branch_id")
     private Branch branch;
@@ -45,14 +43,6 @@ public class Student {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getCourse() {
-        return courseName;
-    }
-
-    public void setCourse(String courseName) {
-        this.courseName = courseName;
     }
 
     public Branch getBranch() {
