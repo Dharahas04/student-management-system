@@ -45,7 +45,6 @@ public class StudentController {
 
         existing.setName(student.getName());
         existing.setEmail(student.getEmail());
-        existing.setCourse(student.getCourse());
 
         return service.saveStudent(existing);
     }
