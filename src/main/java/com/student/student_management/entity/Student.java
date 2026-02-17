@@ -58,4 +58,12 @@ public class Student {
     public void setCourse(String course) {
         this.course = course;
     }
+
+    @ManyToOne
+    @JoinColumn(name = "branch_id")
+    private Branch branch;
+
+    public Branch getBranch() {
+        return branch;
+    }
 }
