@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import com.student.student_management.entity.Student;
 import com.student.student_management.service.StudentService;
 import com.student.student_management.exception.ResourceNotFoundException;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/students")
@@ -20,7 +21,7 @@ public class StudentController {
     }
 
     @PostMapping
-    public Student addStudent(@RequestBody Student student) {
+    public Student addStudent(@Valid @RequestBody Student student) {
         return service.saveStudent(student);
     }
 
