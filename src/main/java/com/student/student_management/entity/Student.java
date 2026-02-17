@@ -46,11 +46,11 @@ public class Student {
         this.email = email;
     }
 
-    public String getCourseName() {
+    public String getCourse() {
         return courseName;
     }
 
-    public void setCourseName(String courseName) {
+    public void setCourse(String courseName) {
         this.courseName = courseName;
     }
 
