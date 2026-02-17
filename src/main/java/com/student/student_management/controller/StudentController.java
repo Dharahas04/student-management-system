@@ -33,4 +33,19 @@ public class StudentController {
         service.deleteStudent(id);
         return "Student deleted successfully!";
     }
+
+    @PutMapping("/{id}")
+    public Student updateStudent(@PathVariable Long id, @RequestBody Student student) {
+        Student existing = service.getStudentById(id);
+        if (existing == null) {
+            throw new RuntimeException("Student not found");
+        }
+
+        existing.setName(student.getName());
+        existing.setEmail(student.getEmail());
+        existing.setCourse(student.getCourse());
+
+        return service.saveStudent(existing);
+    }
+
 }
