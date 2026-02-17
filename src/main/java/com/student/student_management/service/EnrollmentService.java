@@ -8,7 +8,6 @@ import com.student.student_management.repository.*;
 import com.student.student_management.dto.EnrollmentRequest;
 import java.util.List;
 
-import java.util.List;
 import java.util.stream.Collectors;
 import com.student.student_management.dto.EnrollmentResponse;
 

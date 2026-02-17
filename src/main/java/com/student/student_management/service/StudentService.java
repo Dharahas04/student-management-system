@@ -5,6 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.student.student_management.entity.Student;
 import com.student.student_management.repository.StudentRepository;
+import java.util.stream.Collectors;
+import com.student.student_management.dto.StudentResponse;
 
 @Service
 public class StudentService {
@@ -26,5 +28,22 @@ public class StudentService {
 
     public void deleteStudent(Long id) {
         repository.deleteById(id);
+    }
+
+    public StudentResponse getStudentWithCourses(Long id) {
+
+        Student student = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Student not found"));
+
+        List<String> courseNames = student.getEnrollments()
+                .stream()
+                .map(e -> e.getCourse().getCourseName())
+                .collect(Collectors.toList());
+
+        return new StudentResponse(
+                student.getId(),
+                student.getName(),
+                student.getBranch().getBranchName(),
+                courseNames);
     }
 }
