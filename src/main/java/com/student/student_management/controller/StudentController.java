@@ -42,14 +42,24 @@ public class StudentController {
     }
 
     @PutMapping("/{id}")
-    public Student updateStudent(@PathVariable Long id, @RequestBody Student student) {
+    public Student updateStudent(@PathVariable Long id, @Valid @RequestBody Student student) {
+
         Student existing = service.getStudentById(id);
+
         if (existing == null) {
             throw new ResourceNotFoundException("Student not found with id " + id);
         }
 
         existing.setName(student.getName());
         existing.setEmail(student.getEmail());
+        existing.setBranch(student.getBranch());
+
+        existing.setAdmissionYear(student.getAdmissionYear());
+        existing.setCurrentYear(student.getCurrentYear());
+        existing.setCurrentSemester(student.getCurrentSemester());
+        existing.setRollNumber(student.getRollNumber());
+        existing.setStatus(student.getStatus());
+        existing.setDateOfAdmission(student.getDateOfAdmission());
 
         return service.saveStudent(existing);
     }
