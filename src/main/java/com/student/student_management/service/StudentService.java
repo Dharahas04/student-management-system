@@ -58,4 +58,11 @@ public class StudentService {
                 courseNames);
     }
 
+    public StudentResponse getStudentByEmail(String email) {
+        Student student = repository.findByEmail(email)
+                .orElseThrow(() -> new ResourceNotFoundException("Student not found"));
+
+        return getStudentWithCourses(student.getId());
+    }
+
 }
