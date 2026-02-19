@@ -1,5 +1,7 @@
 package com.student.student_management.entity;
 
-public class Role {
-
+public enum Role {
+    ROLE_ADMIN,
+    ROLE_STAFF,
+    ROLE_STUDENT
 }
